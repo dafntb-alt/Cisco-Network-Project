@@ -1,0 +1,126 @@
+
+service password-encryption
+!
+hostname R1_Ntumba_d
+!
+!
+!
+enable secret 5 $1$mERr$9cTjUIEqNGurQiFU.ZeCi1
+!
+!
+ip dhcp excluded-address 10.9.8.1 10.19.8.52
+ip dhcp excluded-address 10.19.8.65 10.19.8.84
+!
+ip dhcp pool VLAN2
+ network 10.19.8.0 255.255.255.192
+ default-router 10.19.8.1
+ domain-name ccna-a.net
+ip dhcp pool VLAN3
+ network 10.19.8.64 255.255.255.224
+ default-router 10.19.8.65
+ domain-name ccna-b.net
+!
+!
+!
+ip cef
+ipv6 unicast-routing
+!
+no ipv6 cef
+!
+!
+!
+username admin password 7 082048430017540713181F
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name ccna-lab.com
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 209.165.201.1 255.255.255.224
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:209::1/64
+!
+interface GigabitEthernet0/0/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0/1.2
+ description Bikes Network
+ encapsulation dot1Q 2
+ ip address 10.19.8.1 255.255.255.192
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:A::1/64
+!
+interface GigabitEthernet0/0/1.3
+ description Trikes Network
+ encapsulation dot1Q 3
+ ip address 10.19.8.65 255.255.255.224
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:B::1/64
+!
+interface GigabitEthernet0/0/1.4
+ description Management Network
+ encapsulation dot1Q 4
+ ip address 10.19.8.97 255.255.255.248
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:C::1/64
+!
+interface GigabitEthernet0/0/1.6
+ description Native Network
+ encapsulation dot1Q 6
+ no ip address
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 Loopback0 
+!
+ip flow-export version 9
+!
+ipv6 route ::/0 Loopback0
+!
+!
+banner motd ^C Authorized Users Only! ^C
+!
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+ login
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+!
+!
+end
