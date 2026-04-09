@@ -1,0 +1,103 @@
+service password-encryption
+!
+hostname R1_ntumba
+!
+!
+!
+enable secret 5 $1$mERr$9cTjUIEqNGurQiFU.ZeCi1
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username admin password 7 082048430017540713181F
+username b
+!
+!
+lldp run
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name ccna-lab.com
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 10.52.0.1 255.255.255.248
+ ip ospf network point-to-point
+ ip ospf priority 1
+!
+interface GigabitEthernet0/0/0
+ ip address 10.67.254.2 255.255.255.252
+ ip ospf hello-interval 20
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0/1
+ ip address 192.168.1.1 255.255.255.0
+ ip nat inside
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 1.1.1.1
+ log-adjacency-changes
+ passive-interface GigabitEthernet0/0/1
+ auto-cost reference-bandwidth 1000
+ network 10.67.254.0 0.0.0.3 area 0
+ network 192.168.1.0 0.0.0.255 area 0
+ network 10.52.0.0 0.0.0.7 area 0
+!
+ip nat inside source list 1 interface GigabitEthernet0/0/0 overload
+ip classless
+!
+ip flow-export version 9
+!
+!
+access-list 1 permit host 192.168.1.0
+access-list 1 permit 192.168.1.0 0.0.0.255
+!
+banner motd ^C Authorized Users Only! ^C
+!
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+ login
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+!
+ntp master 1
+!
+end
