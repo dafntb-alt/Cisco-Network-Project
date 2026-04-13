@@ -8,7 +8,10 @@ Contact: danielntumbatshibangu@gmail.com
 
 ## About This Repository
 
-This repository contains two network simulation projects built in Cisco Packet Tracer as part of my cybersecurity and networking coursework. Each project includes the `.pkt` simulation file and the running configuration files exported from each device.
+This repository contains two network simulation projects built in Cisco Packet Tracer as part of my cybersecurity and networking coursework. Each project includes the `.pkt` simulation file and the running configuration files exported from each device. 
+*Specification for all routers and switches: - Encrypted privileged EXEC password: class
+                                            - Console access password: cisco
+
 
 ---
 
